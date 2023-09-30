@@ -11,10 +11,12 @@
 	
 		极简IOC | 
 	 
-	Hexo
+	Meteor&#39;s Blog
 	</title>
 	
 	<!-- keywords,description -->
+	
+		<meta name="keywords" content="Blog" />
 	 
 
 	<!-- favicon -->
@@ -75,11 +77,12 @@
 	
 	
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-coy.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
 	<header id="header">
-    <a id="title" href="/" class="logo">Hexo</a>
+    <a id="title" href="/" class="logo">Meteor's Blog</a>
 
 	<ul id="menu">
     
@@ -100,21 +103,6 @@
       </li>
     
 
-    
-      
-      
-        <li class="menu-item">
-          <a href='https://github.com/wujun234/hexo-theme-tree' class="menu-item-link" target="_blank">
-            Tree
-          </a>
-        </li>
-      
-        <li class="menu-item">
-          <a href='https://github.com/wujun234/uid-generator-spring-boot-starter' class="menu-item-link" target="_blank">
-            UidGenerator
-          </a>
-        </li>
-      
     
   
     
@@ -250,12 +238,21 @@
 <div class="article-meta">
 	
 
-	<span>John Doe</span>
+	<span>Meteor</span>
 	<span>2023-09-21 17:53:17</span>
 
   <div id="article-categories">
     
 		  <span>Categories：</span>
+      
+          
+              <span>
+                  <i class="fa fa-folder" aria-hidden="true">
+                  <a href="/categories/spring/">spring</a>
+                  </i>
+                
+              </span>
+          
       
     
 
@@ -283,26 +280,103 @@
 <p>Bean：被Spring容器管理的对象<br>源码：<a target="_blank" rel="noopener" href="https://github.com/meteor-01/small-spring/tree/master/small-spring01">small-spring01</a></p>
 </blockquote>
 <h2 id="设计对象"><a href="#设计对象" class="headerlink" title="设计对象"></a>设计对象</h2><p>在 Spring 中把我们对一个对象的设计存储到 BeanDefinition 类中包括对象的类型、字段、方法等等，本篇目的在于创建一个极简IOC，因此下面创建一个很简单的 BeanDefinition</p>
-<figure class="highlight java"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BeanDefinition</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Object bean;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BeanDefinition</span><span class="params">(Object bean)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.bean = bean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">getBean</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">;</span>
 
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BeanDefinition</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> Object bean<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">BeanDefinition</span><span class="token punctuation">(</span>Object bean<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>bean <span class="token operator">=</span> bean<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> Object <span class="token function">getBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> bean<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这个 BeanDefinition 直接存储了实例对象，之后会逐渐修改其实现，慢慢接近真实的 BeanDefinition</p>
 <h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><p>这里我们使用一个Map作为容器，key是对象名，value是 BeanDefinition</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package com.meteor;</span><br><span class="line"></span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.concurrent.ConcurrentHashMap;</span><br><span class="line"></span><br><span class="line">public class BeanFactory &#123;</span><br><span class="line">    private Map&lt;String, BeanDefinition&gt; beanDefinitionMap = new ConcurrentHashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    public Object getBean(String name) &#123;</span><br><span class="line">        return beanDefinitionMap.get(name).getBean();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void registerBeanDefinition(String name, BeanDefinition beanDefinition) &#123;</span><br><span class="line">        beanDefinitionMap.put(name, beanDefinition);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Map<span class="token punctuation">;</span>
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>ConcurrentHashMap<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BeanFactory</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> BeanDefinition<span class="token operator">></span> beanDefinitionMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcurrentHashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> Object <span class="token function">getBean</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> beanDefinitionMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">registerBeanDefinition</span><span class="token punctuation">(</span>String name<span class="token punctuation">,</span> BeanDefinition beanDefinition<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        beanDefinitionMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> beanDefinition<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>容器提供了两个最基本的方法，将 BeanDefinition 注册到容器中以及获取实例对象</p>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>用一个测试类将流程走一遍，测试之前先提供一个 Bean，这个类是我们要交给容器管理的，在我们需要的时候直接从容器中获取</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package com.meteor.bean;</span><br><span class="line"></span><br><span class="line">public class UserService &#123;</span><br><span class="line">    public void queryUserInfo() &#123;</span><br><span class="line">        System.out.println(&quot;查询用户信息&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">.</span>bean<span class="token punctuation">;</span>
 
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">queryUserInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"查询用户信息"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>开始测试：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package com.meteor;</span><br><span class="line"></span><br><span class="line">import com.meteor.bean.UserService;</span><br><span class="line">import org.junit.Test;</span><br><span class="line"></span><br><span class="line">public class MainTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test_BeanFactory()&#123;</span><br><span class="line">        //初始化 BeanFaactory</span><br><span class="line">        BeanFactory beanFactory = new BeanFactory();</span><br><span class="line"></span><br><span class="line">        //将创建好的Bean即 UserService 放入到 BeanDefinition 中</span><br><span class="line">        BeanDefinition beanDefinition = new BeanDefinition(new UserService());</span><br><span class="line"></span><br><span class="line">        //将 BeanDefinition 注册到 BeanFactory 中</span><br><span class="line">        beanFactory.registerBeanDefinition(&quot;userService&quot;, beanDefinition);</span><br><span class="line"></span><br><span class="line">        //从 BeanFactory 中获取 Bean</span><br><span class="line">        UserService userService = (UserService) beanFactory.getBean(&quot;userService&quot;);</span><br><span class="line">        userService.queryUserInfo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">;</span>
 
+<span class="token keyword">import</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">.</span>bean<span class="token punctuation">.</span>UserService<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>junit<span class="token punctuation">.</span>Test<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MainTest</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">test_BeanFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//初始化 BeanFaactory</span>
+        BeanFactory beanFactory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BeanFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//将创建好的Bean即 UserService 放入到 BeanDefinition 中</span>
+        BeanDefinition beanDefinition <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BeanDefinition</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">UserService</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//将 BeanDefinition 注册到 BeanFactory 中</span>
+        beanFactory<span class="token punctuation">.</span><span class="token function">registerBeanDefinition</span><span class="token punctuation">(</span><span class="token string">"userService"</span><span class="token punctuation">,</span> beanDefinition<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//从 BeanFactory 中获取 Bean</span>
+        UserService userService <span class="token operator">=</span> <span class="token punctuation">(</span>UserService<span class="token punctuation">)</span> beanFactory<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"userService"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        userService<span class="token punctuation">.</span><span class="token function">queryUserInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>输出结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">查询用户信息</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-java"><code class="language-java">查询用户信息
 
+Process finished with exit code <span class="token number">0</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>目前已经将IOC的流程走了一遍，首先，我们有一个对象需要交给容器管理，即 UserService，其次，要有一个类存储 UserService 的设计，即 BeanDefinition ，然后，要有一个容器，即 BeanFactory，需要将 BeanDefinition 注册到 BeanFactory 中，最后就可以从 BeanFactory 中直接获取到 UserService，因为在获取的过程中，BeanFactory 会根据BeanDefinition创建Bean。</p>
 <p>其实 BeanDefinition 中存在的应该是 Bean 的Class对象，之后就可以利用反射或cglib的字节码生成创建实例对象，本篇简化了这一操作，直接将Bean的实例对象存储在 BeanDefinition，下一篇解决这个问题</p>
-<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">src</span><br><span class="line">├── main</span><br><span class="line">│   └── java</span><br><span class="line">│       └── com.meteor</span><br><span class="line">│           ├── BeanDefinition.java</span><br><span class="line">│           └── BeanFactory.java</span><br><span class="line">└── test</span><br><span class="line">    └── java</span><br><span class="line">        └── com.meteor </span><br><span class="line">            ├── bean</span><br><span class="line">            │   └── UserService.java                </span><br><span class="line">            └── MainTest.java</span><br></pre></td></tr></table></figure>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><pre class="line-numbers language-xml"><code class="language-xml">src
+├── main
+│   └── java
+│       └── com.meteor
+│           ├── BeanDefinition.java
+│           └── BeanFactory.java
+└── test
+    └── java
+        └── com.meteor 
+            ├── bean
+            │   └── UserService.java                
+            └── MainTest.java
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>junit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>junit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>RELEASE<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">></span></span>test<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;junit&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;junit&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
 </div>
 
 <!-- post-guide -->
@@ -336,7 +410,7 @@
 	<div id="footer">
 	<p>
 	©<span id="footerYear-start"></span>-<span id="footerYear-end"></span>
-	<a href="/">John Doe</a> 
+	<a href="/">Meteor</a> 
 	
 	
 	<br>

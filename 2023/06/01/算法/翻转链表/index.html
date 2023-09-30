@@ -11,10 +11,12 @@
 	
 		翻转链表 | 
 	 
-	Hexo
+	Meteor&#39;s Blog
 	</title>
 	
 	<!-- keywords,description -->
+	
+		<meta name="keywords" content="Blog" />
 	 
 
 	<!-- favicon -->
@@ -75,11 +77,12 @@
 	
 	
 
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-coy.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 <body>
 	<header id="header">
-    <a id="title" href="/" class="logo">Hexo</a>
+    <a id="title" href="/" class="logo">Meteor's Blog</a>
 
 	<ul id="menu">
     
@@ -100,21 +103,6 @@
       </li>
     
 
-    
-      
-      
-        <li class="menu-item">
-          <a href='https://github.com/wujun234/hexo-theme-tree' class="menu-item-link" target="_blank">
-            Tree
-          </a>
-        </li>
-      
-        <li class="menu-item">
-          <a href='https://github.com/wujun234/uid-generator-spring-boot-starter' class="menu-item-link" target="_blank">
-            UidGenerator
-          </a>
-        </li>
-      
     
   
     
@@ -250,17 +238,34 @@
 <div class="article-meta">
 	
 
-	<span>John Doe</span>
+	<span>Meteor</span>
 	<span>2023-06-01 18:09:37</span>
 
   <div id="article-categories">
     
 		  <span>Categories：</span>
       
+          
+              <span>
+                  <i class="fa fa-folder" aria-hidden="true">
+                  <a href="/categories/算法/">算法</a>
+                  </i>
+                
+              </span>
+          
+      
     
 
     
 		    <span>Tags：</span>
+        
+            
+                <span>
+                    <i class="fa fa-tag" aria-hidden="true">
+                    <a href="/tags/链表/">链表</a>
+                    </i>
+                </span>
+            
         
     
   </div>
@@ -271,10 +276,78 @@
 <div id="article-content">
 	<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-linked-list-ii/">92 翻转链表||</a></p>
 <h3 id="解题思路1"><a href="#解题思路1" class="headerlink" title="解题思路1"></a>解题思路1</h3><p>整个链表可以分成三段，1-left-1、left-right、right-end，只需要用栈存储从left到right的节点，然后一个个弹出栈，逆序连接在一起，然后将三段拼接在一起即可。</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseBetween</span><span class="params">(ListNode head, <span class="type">int</span> left, <span class="type">int</span> right)</span> &#123;</span><br><span class="line">        <span class="comment">//若left==right，则不需要翻转</span></span><br><span class="line">        <span class="keyword">if</span>(left==right) <span class="keyword">return</span> head;</span><br><span class="line">        <span class="comment">//pre表示当前节点的前一个节点，用来连接第一段和第二段</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">pre</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>();</span><br><span class="line">        pre.next = head;</span><br><span class="line">        <span class="comment">//作为结果返回</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">res</span> <span class="operator">=</span> pre;</span><br><span class="line">        <span class="comment">//表明pre是第count个节点的前一个节点</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//栈记录从left到right的节点</span></span><br><span class="line">        Stack&lt;ListNode&gt; stack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//先找到left节点所在的位置</span></span><br><span class="line">        <span class="keyword">while</span>(count&lt;left)&#123;</span><br><span class="line">            pre = pre.next;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//将left到right的节点放入到栈中</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">cur</span> <span class="operator">=</span> pre.next;</span><br><span class="line">        <span class="keyword">while</span>(count&lt;=right)&#123;</span><br><span class="line">            stack.add(cur);</span><br><span class="line">            cur = cur.next;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//将第一段和第二段连接并将第二段的节点逆序</span></span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty())&#123;</span><br><span class="line">            pre.next = stack.pop();</span><br><span class="line">            pre = pre.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//连接第二段和第三段</span></span><br><span class="line">        pre.next = cur;</span><br><span class="line">        <span class="keyword">return</span> res.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> ListNode <span class="token function">reverseBetween</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">,</span> <span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//若left==right，则不需要翻转</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>left<span class="token operator">==</span>right<span class="token punctuation">)</span> <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//pre表示当前节点的前一个节点，用来连接第一段和第二段</span>
+        ListNode pre <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pre<span class="token punctuation">.</span>next <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//作为结果返回</span>
+        ListNode res <span class="token operator">=</span> pre<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//表明pre是第count个节点的前一个节点</span>
+        <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//栈记录从left到right的节点</span>
+        Stack<span class="token operator">&lt;</span>ListNode<span class="token operator">></span> stack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//先找到left节点所在的位置</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>count<span class="token operator">&lt;</span>left<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            pre <span class="token operator">=</span> pre<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            count<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//将left到right的节点放入到栈中</span>
+        ListNode cur <span class="token operator">=</span> pre<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>count<span class="token operator">&lt;=</span>right<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            stack<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>cur<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            count<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//将第一段和第二段连接并将第二段的节点逆序</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>stack<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            pre<span class="token punctuation">.</span>next <span class="token operator">=</span> stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            pre <span class="token operator">=</span> pre<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//连接第二段和第三段</span>
+        pre<span class="token punctuation">.</span>next <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="解题思路2"><a href="#解题思路2" class="headerlink" title="解题思路2"></a>解题思路2</h3><p>不使用栈，直接将从left到right的节点逆序连接，然后将三个部分连接在一起即可。</p>
-<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> ListNode <span class="title function_">reverseBetween</span><span class="params">(ListNode head, <span class="type">int</span> left, <span class="type">int</span> right)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(left==right) <span class="keyword">return</span> head;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">pre</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>();</span><br><span class="line">        pre.next = head;</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">res</span> <span class="operator">=</span> pre;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//找到left节点的前一个节点的位置</span></span><br><span class="line">        <span class="keyword">while</span>(count&lt;left)&#123;</span><br><span class="line">            count++;</span><br><span class="line">            pre = pre.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//cur表示已完成逆序的最后一个节点</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">cur</span> <span class="operator">=</span> pre.next;</span><br><span class="line">        <span class="comment">//first是left位置的节点，逆序后是left-right中的最后一个节点</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">first</span> <span class="operator">=</span> cur;</span><br><span class="line">        <span class="comment">//next表示未逆序的第一个节点</span></span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">next</span> <span class="operator">=</span> cur.next;</span><br><span class="line">        cur.next = <span class="literal">null</span>;</span><br><span class="line">        <span class="comment">//将left到right的节点逆序</span></span><br><span class="line">        <span class="keyword">while</span>(count&lt;right)&#123;</span><br><span class="line">            <span class="type">ListNode</span> <span class="variable">temp</span> <span class="operator">=</span> next.next;</span><br><span class="line">            next.next = cur;</span><br><span class="line">            cur = next;</span><br><span class="line">            next = temp;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//连接第一段和第二段</span></span><br><span class="line">        pre.next = cur;</span><br><span class="line">        <span class="comment">//连接第二段和第三段</span></span><br><span class="line">        first.next = next;</span><br><span class="line">        <span class="keyword">return</span> res.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> ListNode <span class="token function">reverseBetween</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">,</span> <span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>left<span class="token operator">==</span>right<span class="token punctuation">)</span> <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+        ListNode pre <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pre<span class="token punctuation">.</span>next <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        ListNode res <span class="token operator">=</span> pre<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//找到left节点的前一个节点的位置</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>count<span class="token operator">&lt;</span>left<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            count<span class="token operator">++</span><span class="token punctuation">;</span>
+            pre <span class="token operator">=</span> pre<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//cur表示已完成逆序的最后一个节点</span>
+        ListNode cur <span class="token operator">=</span> pre<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//first是left位置的节点，逆序后是left-right中的最后一个节点</span>
+        ListNode first <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//next表示未逆序的第一个节点</span>
+        ListNode next <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        cur<span class="token punctuation">.</span>next <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//将left到right的节点逆序</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>count<span class="token operator">&lt;</span>right<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            ListNode temp <span class="token operator">=</span> next<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            next<span class="token punctuation">.</span>next <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+            cur <span class="token operator">=</span> next<span class="token punctuation">;</span>
+            next <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+            count<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//连接第一段和第二段</span>
+        pre<span class="token punctuation">.</span>next <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//连接第二段和第三段</span>
+        first<span class="token punctuation">.</span>next <span class="token operator">=</span> next<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>链表一般定义一个pre头节点进行处理会更加方便</p>
 
 </div>
@@ -315,7 +388,7 @@
 	<div id="footer">
 	<p>
 	©<span id="footerYear-start"></span>-<span id="footerYear-end"></span>
-	<a href="/">John Doe</a> 
+	<a href="/">Meteor</a> 
 	
 	
 	<br>
