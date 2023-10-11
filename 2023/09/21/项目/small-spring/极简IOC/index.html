@@ -167,6 +167,17 @@
 			
 							<ul>
 								<li class="file">
+									<a href="/2023/10/09/%E7%AE%97%E6%B3%95/%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4/">
+                     
+										    划分字母区间
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
 									<a href="/2023/05/31/%E7%AE%97%E6%B3%95/%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/">
                      
 										    层序遍历
@@ -216,6 +227,17 @@
 										small-spring
 									</a>
 									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/09/%E9%A1%B9%E7%9B%AE/small-spring/%E5%88%A9%E7%94%A8%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F%E5%AF%B9IOC%E5%8A%9F%E8%83%BD%E5%88%86%E5%B1%82/">
+                     
+										    利用模板模式对IOC功能分层
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
 							<ul>
 								<li class="file active">
 									<a href="/2023/09/21/%E9%A1%B9%E7%9B%AE/small-spring/%E6%9E%81%E7%AE%80IOC/">
@@ -286,12 +308,14 @@
 <!-- content -->
 <div id="article-content">
 	<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><font size=5>IOC</font>  控制反转，一种设计思想，即由我们设计对象的创建过程中所需要的一切，如对象的字段、方法，然后由容器控制对象的真实创建（容器可以简单的理解为一个创建和存储对象的工厂）</p>
-<p>IOC提供的功能就是将我们对一个对象的设计存储到容器中，然后在代码中通过容器提供的方式获取到容器创建的实例对象。使用IOC的过程大致可分为：设计对象、将设计注册进容器、通过容器获取对象、使用对象四个阶段，接下来先实现一个最简单的对象容器，建议先把文章阅读一遍，再根据文末的目录结构和依赖对照文章实现一遍</p>
+<p>IOC提供的功能就是将我们对一个对象的设计存储到容器中，然后在代码中通过容器提供的方式获取到容器创建的实例对象。</p>
+<p>使用IOC的过程大致可分为：设计对象、将设计注册进容器、通过容器获取对象、使用对象四个阶段</p>
+<p>接下来实现一个最简单的对象容器，建议先把文章阅读一遍，再根据文末的目录结构和依赖对照文章实现一遍</p>
 <blockquote>
 <p>Bean：被Spring容器管理的对象<br>源码：<a target="_blank" rel="noopener" href="https://github.com/meteor-01/small-spring/tree/master/small-spring01">small-spring01</a></p>
 </blockquote>
 <h2 id="设计对象"><a href="#设计对象" class="headerlink" title="设计对象"></a>设计对象</h2><p>在 Spring 中把我们对一个对象的设计存储到 BeanDefinition 类中包括对象的类型、字段、方法等等，本篇目的在于创建一个极简IOC，因此下面创建一个很简单的 BeanDefinition</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">;</span>
+<h4 id="BeanDefinition"><a href="#BeanDefinition" class="headerlink" title="BeanDefinition"></a>BeanDefinition</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">;</span>
 
 <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BeanDefinition</span> <span class="token punctuation">{</span>
     <span class="token keyword">private</span> <span class="token keyword">final</span> Object bean<span class="token punctuation">;</span>
@@ -307,7 +331,7 @@
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这个 BeanDefinition 直接存储了实例对象，之后会逐渐修改其实现，慢慢接近真实的 BeanDefinition</p>
 <h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><p>这里我们使用一个Map作为容器，key是对象名，value是 BeanDefinition</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">;</span>
+<h4 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">;</span>
 
 <span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Map<span class="token punctuation">;</span>
 <span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>ConcurrentHashMap<span class="token punctuation">;</span>
@@ -326,7 +350,7 @@
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>容器提供了两个最基本的方法，将 BeanDefinition 注册到容器中以及获取实例对象</p>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>用一个测试类将流程走一遍，测试之前先提供一个 Bean，这个类是我们要交给容器管理的，在我们需要的时候直接从容器中获取</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">.</span>bean<span class="token punctuation">;</span>
+<h4 id="UserService"><a href="#UserService" class="headerlink" title="UserService"></a>UserService</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">.</span>bean<span class="token punctuation">;</span>
 
 <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserService</span> <span class="token punctuation">{</span>
     <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">queryUserInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -334,8 +358,7 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>开始测试：</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">;</span>
+<h4 id="开始测试"><a href="#开始测试" class="headerlink" title="开始测试"></a>开始测试</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">;</span>
 
 <span class="token keyword">import</span> com<span class="token punctuation">.</span>meteor<span class="token punctuation">.</span>bean<span class="token punctuation">.</span>UserService<span class="token punctuation">;</span>
 <span class="token keyword">import</span> org<span class="token punctuation">.</span>junit<span class="token punctuation">.</span>Test<span class="token punctuation">;</span>
@@ -363,8 +386,8 @@
 
 Process finished with exit code <span class="token number">0</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>目前已经将IOC的流程走了一遍，首先，我们有一个对象需要交给容器管理，即 UserService，其次，要有一个类存储 UserService 的设计，即 BeanDefinition ，然后，要有一个容器，即 BeanFactory，需要将 BeanDefinition 注册到 BeanFactory 中，最后就可以从 BeanFactory 中直接获取到 UserService，因为在获取的过程中，BeanFactory 会根据BeanDefinition创建Bean。</p>
-<p>其实 BeanDefinition 中存在的应该是 Bean 的Class对象，之后就可以利用反射或cglib的字节码生成创建实例对象，本篇简化了这一操作，直接将Bean的实例对象存储在 BeanDefinition，下一篇解决这个问题</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前已经将IOC的流程走了一遍，首先，我们有一个对象需要交给容器管理，即 UserService，其次，要有一个类存储 UserService 的设计，即 BeanDefinition ，然后，要有一个容器，即 BeanFactory，需要将 BeanDefinition 注册到 BeanFactory 中，最后就可以从 BeanFactory 中直接获取到 UserService，因为在获取的过程中，BeanFactory 会根据BeanDefinition创建Bean。</p>
+<p>其实 BeanDefinition 中存在的应该是 Bean 的Class对象，之后就可以利用反射或cglib的字节码生成创建实例对象，本篇简化了这一操作，直接将Bean的实例对象存储在 BeanDefinition，下一篇解决这个问题。</p>
 <h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><pre class="line-numbers language-xml"><code class="language-xml">src
 ├── main
 │   └── java
