@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	
+	<!-- title -->
+	
+	<title>
+	
+		代理模式 | 
+	 
+	Meteor
+	</title>
+	
+	<!-- keywords,description -->
+	
+		<meta name="keywords" content="Blog" />
+	
+	
+
+	<!-- favicon -->
+	
+	<link rel="shortcut icon" href="/Blog.png">
+	
+
+
+	<!-- search -->
+	<script>
+		var searchEngine = "https://www.google.com/search?q=";
+		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
+			searchEngine = "https://www.google.com/search?q=";
+		}
+		var homeHost = "";
+		if(typeof homeHost == "undefined" || homeHost == null || homeHost == ""){
+			homeHost = window.location.host;
+		}
+	</script>
+
+
+	
+<link rel="stylesheet" href="/css/main.css">
+
+	
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/darcula.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js"></script>
+
+	
+<script src="/js/main.js"></script>
+
+
+	
+		
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+
+		
+<script src="https://cdn.jsdelivr.net/npm/valine@v1.5.1/dist/Valine.min.js"></script>
+
+	
+	
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+	<header id="header">
+    <a id="title" href="/" class="logo">Meteor</a>
+
+	<ul id="menu">
+    
+      <li class="menu-item">
+        <a href="/about" class="menu-item-link">About</a>
+      </li>
+    
+
+    
+      <li class="menu-item">
+        <a href="/tags" class="menu-item-link">Tags</a>
+      </li>
+    
+
+    
+      <li class="menu-item">
+        <a href="/categories" class="menu-item-link">Categories</a>
+      </li>
+    
+
+    
+  
+    
+      <li class="menu-item">
+        <a href='https://github.com/meteor-01' class="menu-item-link" target="_blank">
+          <i class="fa fa-github fa-2x"></i>
+        </a>
+      </li>
+    
+	</ul>
+</header>
+
+	
+<div id="sidebar">
+	<button id="sidebar-toggle" class="toggle" ><i class="fa fa-arrow-right " aria-hidden="true"></i></button>
+	
+	<div id="site-toc">
+		<input id="search-input" class="search-input" type="search" placeholder="Press Enter to search">
+		<div id="tree">
+			
+
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										Java
+									</a>
+									
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										JVM
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/11/Java/JVM/JVM%E7%AC%AC%E4%B8%80%E7%AF%87%E2%80%94%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+                     
+										    JVM第一篇—内存区域
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										其它
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/Grpc/">
+                     
+										    Grpc
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/MyBatis-generator/">
+                     
+										    MyBatis-generator
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/26/%E5%85%B6%E5%AE%83/Spring%E4%BA%8B%E5%8A%A1/">
+                     
+										    Spring事务
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/%E6%97%A5%E5%BF%97%E5%88%87%E9%9D%A2%E5%85%A5%E5%BA%93/">
+                     
+										    日志切面入库
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/01/09/%E5%85%B6%E5%AE%83/%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83/">
+                     
+										    登录鉴权
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/06/21/%E5%85%B6%E5%AE%83/%E8%AF%BB%E5%8F%96%E5%86%99%E5%85%A5Excel/">
+                     
+										    读取写入Excel
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										算法
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2022/11/28/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+                     
+										    二分查找
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/09/%E7%AE%97%E6%B3%95/%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4/">
+                     
+										    划分字母区间
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/05/31/%E7%AE%97%E6%B3%95/%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/">
+                     
+										    层序遍历
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/13/%E7%AE%97%E6%B3%95/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">
+                     
+										    打家劫舍
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/06/01/%E7%AE%97%E6%B3%95/%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/">
+                     
+										    翻转链表
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/08/%E7%AE%97%E6%B3%95/%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/">
+                     
+										    跳跃游戏
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										设计模式
+									</a>
+									
+							<ul>
+								<li class="file active">
+									<a href="/2023/10/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
+                     
+										    代理模式
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+                     
+										    单例模式
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										项目
+									</a>
+									
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										small-spring
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/09/%E9%A1%B9%E7%9B%AE/small-spring/%E5%88%A9%E7%94%A8%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F%E5%AF%B9IOC%E5%8A%9F%E8%83%BD%E5%88%86%E5%B1%82/">
+                     
+										    利用模板模式对IOC功能分层
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/30/%E9%A1%B9%E7%9B%AE/small-spring/%E5%AE%9E%E7%8E%B0%E6%9C%89%E5%8F%82%E6%9E%84%E9%80%A0%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/">
+                     
+										    实现有参构造的实例化
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/09/21/%E9%A1%B9%E7%9B%AE/small-spring/%E6%9E%81%E7%AE%80IOC/">
+                     
+										    极简IOC
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/12/25/%E9%A1%B9%E7%9B%AE/small-spring/%E9%80%92%E5%BD%92%E5%A1%AB%E5%85%85%E5%B1%9E%E6%80%A7/">
+                     
+										    递归填充属性
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+		</div>
+	</div>
+</div>
+
+	<!-- 引入正文 -->
+	<div id="content" class="content">
+		<h1 id="article-title">
+	代理模式
+</h1>
+
+<!-- meta -->
+<div class="article-meta">
+	
+
+	<span>Meteor</span>
+	<span>2023-10-31 17:14:32</span>
+
+  <div id="article-categories">
+    
+		  <span>Categories：</span>
+      
+          
+              <span>
+                  <i class="fa fa-folder" aria-hidden="true">
+                  <a href="/categories/设计模式/">设计模式</a>
+                  </i>
+                
+              </span>
+          
+      
+    
+
+    
+		    <span>Tags：</span>
+        
+            
+                <span>
+                    <i class="fa fa-tag" aria-hidden="true">
+                    <a href="/tags/代理模式/">代理模式</a>
+                    </i>
+                </span>
+            
+        
+    
+  </div>
+
+</div>
+
+<!-- content -->
+<div id="article-content">
+	<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>代理模式，为其它对象提供一种代理以控制对这个对象的访问</p>
+
+<p>代理本质上就是对对象功能的增强，比如需要统计方法的执行时间或者观察方法的执行流程，那就可以利用代理的方式在执行方法的前后加上统计时间的代码或者日志，或者隐藏对真实对象的访问，对外只提供代理对象</p>
+
+<p>代理分为静态代理和动态代理，其中动态代理较为常用，静态代理基本不用</p>
+
+<blockquote>
+<p>源码：<a target="_blank" rel="noopener" href="https://github.com/meteor-01/moderndesign/tree/master/proxy">proxy</a></p>
+</blockquote>
+<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>静态代理的实现较为简单，首先定义一个目标类和接口，让目标类实现接口，然后让代理类和目标类实现一样的接口，将目标类通过组合的方式添加到代理类中，然后重写接口中的方法，在执行那个目标类的方法前后添加自定义的方法</p>
+
+<p>静态代理类如下：</p>
+
+<h4 id="StaticProxy"><a href="#StaticProxy" class="headerlink" title="StaticProxy"></a>StaticProxy</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design.static_proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.meteor.design.service.IUserService;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StaticProxy</span> <span class="keyword">implements</span> <span class="title class_">IUserService</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> IUserService userService;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 通过组合的方式将目标类添加到代理类中</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">StaticProxy</span><span class="params">(IUserService userService)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.userService = userService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重写方法，在执行目标类方法前后添加自定义操作</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">queryUserInfo</span><span class="params">()</span> &#123;</span><br><span class="line">        before();</span><br><span class="line">        userService.queryUserInfo();</span><br><span class="line">        after();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">before</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;执行方法前的操作&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">after</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;执行方法后的操作&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AppTest</span> </span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testStaticProxy</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">StaticProxy</span> <span class="variable">userServiceProxy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StaticProxy</span>(<span class="keyword">new</span> <span class="title class_">UserService</span>());</span><br><span class="line">        userServiceProxy.queryUserInfo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">执行方法前的操作</span><br><span class="line">查询到用户信息</span><br><span class="line">执行方法后的操作</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>静态代理的缺点显而易见，每一个目标类都需要手动写一个代理类，接口新增方法时代理类也要做相应的修改，因此几乎不会使用</p>
+
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>动态代理和静态代理的区别在于动态代理是在运行时动态生成类字节码加载到 JVM 中的，而静态代理是在编译期就已经确定了有哪些类。简而言之，动态代理会自动生成代理类，而静态代理需要自定义代理类。</p>
+
+<p>下面详细介绍两种动态代理的方式，当然，动态代理不只两种</p>
+
+<h3 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h3><p>JDK动态代理依赖于 java.lang.reflect.Proxy 类和 java.lang.reflect.InvocationHandler 接口来实现，使用JDK动态代理的过程如下：</p>
+
+<p>定义代理类实现 InvocationHandler 接口并重写 invoke() 方法，在 invoke() 方法中执行用户方法前后添加自定义操作，最后在代理工厂类中通过反射提供代理类。</p>
+
+<p>代码如下：</p>
+
+<h4 id="MyInvocationHandler"><a href="#MyInvocationHandler" class="headerlink" title="MyInvocationHandler"></a>MyInvocationHandler</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design.dynamic_proxy.jdk;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyInvocationHandler</span> <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Object target;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过组合的方式将目标类添加到代理类中</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MyInvocationHandler</span><span class="params">(Object target)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重写方法，在执行目标类方法前后添加自定义操作</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        before();</span><br><span class="line">        <span class="type">Object</span> <span class="variable">res</span> <span class="operator">=</span> method.invoke(target, args);</span><br><span class="line">        after();</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">before</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;执行方法前的操作&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">after</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;执行方法后的操作&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义自己的 InvocationHandler 类，并重写 invoke() 方法，将原始对象通过组合的方式传进来，先执行 before() 方法，再执行原始对象的方法并将结果保存起来，然后执行 after() 方法，最后将结果返回</p>
+
+<h4 id="JDKProxyFactory"><a href="#JDKProxyFactory" class="headerlink" title="JDKProxyFactory"></a>JDKProxyFactory</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design.dynamic_proxy.jdk;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JDKProxyFactory</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">getProxy</span><span class="params">(Object target)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Proxy.newProxyInstance(target.getClass().getClassLoader(),</span><br><span class="line">                target.getClass().getInterfaces(),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">MyInvocationHandler</span>(target));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义代理工厂类，通过反射提供代理对象，主要是调用Proxy.newProxyInstance()方法，需要提供三个参数：类加载器(ClassLoader)、目标类实现的接口数组(Class<?>[])、InvocationHandler对象</p>
+
+<h4 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AppTest</span> </span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testJDKProxy</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">IUserService</span> <span class="variable">proxy</span> <span class="operator">=</span> (IUserService)JDKProxyFactory.getProxy(<span class="keyword">new</span> <span class="title class_">UserService</span>());</span><br><span class="line">        proxy.queryUserInfo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">执行方法前的操作</span><br><span class="line">查询到用户信息</span><br><span class="line">执行方法后的操作</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>JDK动态代理是基于接口的，本质上是代理类和目标类实现了相同的接口，所以使用时感觉不到代理类和目标类的区别，当然，实际使用时，当调用代理类的方法时其实是调用了 InvocationHandler 的 invoke() 方法。其实上面两个类可以合二为一，只需要将代理工厂的 getProxy() 方法移动到 MyInvocationHandler 类中即可</p>
+
+<p>当目标类没有实现任何接口的话，就要通过下面的Cglib的方式了</p>
+
+<h3 id="Cglib动态代理"><a href="#Cglib动态代理" class="headerlink" title="Cglib动态代理"></a>Cglib动态代理</h3><p>Cglib同样是在运行时动态生成字节码实现动态代理的，和JDK动态代理的区别是，JDK动态代理是和目标类实现相同的接口，以此来替换目标类，而Cglib是继承目标类，用子类替代目标类</p>
+
+<p>Cglib动态代理依赖于 net.sf.cglib.proxy.Enhancer 类和 net.sf.cglib.proxy.MethodInterceptor 类，Enhancer 类相当于上文的 Proxy 类，MethodInterceptor 类相当于上文的 InvocationHandler 类，由于Cglib是第三方包，因此需要手动引入依赖cglib，使用Cglib动态代理的过程如下：</p>
+
+<p>定义自己的 MethodInterceptor 并重写 intercept() 方法，类似于上文中的 invoke()，在 intercept() 方法的前后添加额外的操作，创建代理工厂和 Enhancer 对象，设置类加载器、目标类、回调方法(MethodInterceptor对象)，最后利用 Enhancer 的 create() 方法创建代理对象</p>
+
+<p>代码如下：</p>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design.dynamic_proxy.cglib;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.MethodInterceptor;</span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.MethodProxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyMethodInterceptor</span> <span class="keyword">implements</span> <span class="title class_">MethodInterceptor</span> &#123;</span><br><span class="line">    <span class="comment">// 重写 intercept 方法，实现额外的操作</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">intercept</span><span class="params">(Object o, Method method, Object[] objects, MethodProxy methodProxy)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        before();</span><br><span class="line">        <span class="type">Object</span> <span class="variable">object</span> <span class="operator">=</span> methodProxy.invokeSuper(o, objects);</span><br><span class="line">        after();</span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">before</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;执行方法前的操作&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">after</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;执行方法后的操作&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design.dynamic_proxy.cglib;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.Enhancer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CGLIBProxyFactory</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">getProxy</span><span class="params">(Class&lt;?&gt; clazz)</span> &#123;</span><br><span class="line">        <span class="comment">// 创建Enhancer增强类</span></span><br><span class="line">        <span class="type">Enhancer</span> <span class="variable">enhancer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Enhancer</span>();</span><br><span class="line">        <span class="comment">// 设置类加载器</span></span><br><span class="line">        enhancer.setClassLoader(clazz.getClassLoader());</span><br><span class="line">        <span class="comment">// 设置被代理类</span></span><br><span class="line">        enhancer.setSuperclass(clazz);</span><br><span class="line">        <span class="comment">// 设置回调方法</span></span><br><span class="line">        enhancer.setCallback(<span class="keyword">new</span> <span class="title class_">MyMethodInterceptor</span>());</span><br><span class="line">        <span class="comment">// 创建代理类</span></span><br><span class="line">        <span class="keyword">return</span> enhancer.create();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试-2"><a href="#测试-2" class="headerlink" title="测试"></a>测试</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AppTest</span> </span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testCGLIBProxy</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">UserService</span> <span class="variable">proxy</span> <span class="operator">=</span> (UserService)CGLIBProxyFactory.getProxy(UserService.class);</span><br><span class="line">        proxy.queryUserInfo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">执行方法前的操作</span><br><span class="line">查询到用户信息</span><br><span class="line">执行方法后的操作</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">src</span><br><span class="line">├── main</span><br><span class="line">│   └── java</span><br><span class="line">│       └── com.meteor.design</span><br><span class="line">│           ├── dynamic_proxy</span><br><span class="line">│           │   ├── cglib</span><br><span class="line">│           │   │   ├── CGLIBProxyFactory.java</span><br><span class="line">│           │   │   └── MyMethodInterceptor.java</span><br><span class="line">│           │   │      </span><br><span class="line">│           │   └── jdk</span><br><span class="line">│           │       ├── JDKProxyFactory.java</span><br><span class="line">│           │       └── MyInvocationHandler.java</span><br><span class="line">│           │           </span><br><span class="line">│           ├── service</span><br><span class="line">│           │   ├── IUserService.java</span><br><span class="line">│           │   └── UserService.java</span><br><span class="line">│           │       </span><br><span class="line">│           └── static_proxy</span><br><span class="line">│               └── StaticProxy.java       </span><br><span class="line">└── test</span><br><span class="line">    └── java</span><br><span class="line">        └── com.meteor.design</span><br><span class="line">            └── AppTest.java</span><br></pre></td></tr></table></figure>
+</div>
+
+<!-- post-guide -->
+
+    <div class="post-guide">
+        <div class="item left">
+            
+              <a href="/2023/12/25/%E9%A1%B9%E7%9B%AE/small-spring/%E9%80%92%E5%BD%92%E5%A1%AB%E5%85%85%E5%B1%9E%E6%80%A7/">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  递归填充属性
+              </a>
+            
+        </div>
+        <div class="item right">
+            
+              <a href="/2023/10/30/%E9%A1%B9%E7%9B%AE/small-spring/%E5%AE%9E%E7%8E%B0%E6%9C%89%E5%8F%82%E6%9E%84%E9%80%A0%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/">
+                实现有参构造的实例化
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            
+        </div>
+    </div>
+
+
+<!-- comment - giscus -->
+
+
+<!-- comment - valine -->
+
+
+<script>
+	
+	
+</script>
+	</div>
+	<div id="footer">
+	<p>
+	©<span id="footerYear-start"></span>-<span id="footerYear-end"></span>
+
+	
+	    <a href="/">Meteor</a>
+	
+	
+	
+	<br>
+	Theme <a href="//github.com/wujun234/hexo-theme-tree" target="_blank">Tree</a>
+	by <a href="//wujun.me" target="_blank">Wu Jun</a>
+	Powered by <a href="//hexo.io" target="_blank">Hexo</a>
+	</p>
+</div>
+
+
+<script type="text/javascript">
+	document.getElementById('footerYear-start').innerHTML = new Date().getFullYear() + '';
+</script>
+
+<script type="text/javascript">
+	document.getElementById('footerYear-end').innerHTML = new Date().getFullYear() + '';
+</script>
+
+	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+</body>
+</html>

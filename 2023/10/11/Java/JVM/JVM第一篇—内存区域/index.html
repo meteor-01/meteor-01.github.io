@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	
+	<!-- title -->
+	
+	<title>
+	
+		JVM第一篇—内存区域 | 
+	 
+	Meteor
+	</title>
+	
+	<!-- keywords,description -->
+	
+		<meta name="keywords" content="Blog" />
+	
+	
+
+	<!-- favicon -->
+	
+	<link rel="shortcut icon" href="/Blog.png">
+	
+
+
+	<!-- search -->
+	<script>
+		var searchEngine = "https://www.google.com/search?q=";
+		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
+			searchEngine = "https://www.google.com/search?q=";
+		}
+		var homeHost = "";
+		if(typeof homeHost == "undefined" || homeHost == null || homeHost == ""){
+			homeHost = window.location.host;
+		}
+	</script>
+
+
+	
+<link rel="stylesheet" href="/css/main.css">
+
+	
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/darcula.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js"></script>
+
+	
+<script src="/js/main.js"></script>
+
+
+	
+		
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+
+		
+<script src="https://cdn.jsdelivr.net/npm/valine@v1.5.1/dist/Valine.min.js"></script>
+
+	
+	
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+	<header id="header">
+    <a id="title" href="/" class="logo">Meteor</a>
+
+	<ul id="menu">
+    
+      <li class="menu-item">
+        <a href="/about" class="menu-item-link">About</a>
+      </li>
+    
+
+    
+      <li class="menu-item">
+        <a href="/tags" class="menu-item-link">Tags</a>
+      </li>
+    
+
+    
+      <li class="menu-item">
+        <a href="/categories" class="menu-item-link">Categories</a>
+      </li>
+    
+
+    
+  
+    
+      <li class="menu-item">
+        <a href='https://github.com/meteor-01' class="menu-item-link" target="_blank">
+          <i class="fa fa-github fa-2x"></i>
+        </a>
+      </li>
+    
+	</ul>
+</header>
+
+	
+<div id="sidebar">
+	<button id="sidebar-toggle" class="toggle" ><i class="fa fa-arrow-right " aria-hidden="true"></i></button>
+	
+	<div id="site-toc">
+		<input id="search-input" class="search-input" type="search" placeholder="Press Enter to search">
+		<div id="tree">
+			
+
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										Java
+									</a>
+									
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										JVM
+									</a>
+									
+							<ul>
+								<li class="file active">
+									<a href="/2023/10/11/Java/JVM/JVM%E7%AC%AC%E4%B8%80%E7%AF%87%E2%80%94%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+                     
+										    JVM第一篇—内存区域
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										其它
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/Grpc/">
+                     
+										    Grpc
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/MyBatis-generator/">
+                     
+										    MyBatis-generator
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/26/%E5%85%B6%E5%AE%83/Spring%E4%BA%8B%E5%8A%A1/">
+                     
+										    Spring事务
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/%E6%97%A5%E5%BF%97%E5%88%87%E9%9D%A2%E5%85%A5%E5%BA%93/">
+                     
+										    日志切面入库
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/01/09/%E5%85%B6%E5%AE%83/%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83/">
+                     
+										    登录鉴权
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/06/21/%E5%85%B6%E5%AE%83/%E8%AF%BB%E5%8F%96%E5%86%99%E5%85%A5Excel/">
+                     
+										    读取写入Excel
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										算法
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2022/11/28/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+                     
+										    二分查找
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/09/%E7%AE%97%E6%B3%95/%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4/">
+                     
+										    划分字母区间
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/05/31/%E7%AE%97%E6%B3%95/%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/">
+                     
+										    层序遍历
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/13/%E7%AE%97%E6%B3%95/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">
+                     
+										    打家劫舍
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/06/01/%E7%AE%97%E6%B3%95/%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/">
+                     
+										    翻转链表
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/08/%E7%AE%97%E6%B3%95/%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/">
+                     
+										    跳跃游戏
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										设计模式
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
+                     
+										    代理模式
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+                     
+										    单例模式
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										项目
+									</a>
+									
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										small-spring
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/09/%E9%A1%B9%E7%9B%AE/small-spring/%E5%88%A9%E7%94%A8%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F%E5%AF%B9IOC%E5%8A%9F%E8%83%BD%E5%88%86%E5%B1%82/">
+                     
+										    利用模板模式对IOC功能分层
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/30/%E9%A1%B9%E7%9B%AE/small-spring/%E5%AE%9E%E7%8E%B0%E6%9C%89%E5%8F%82%E6%9E%84%E9%80%A0%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/">
+                     
+										    实现有参构造的实例化
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/09/21/%E9%A1%B9%E7%9B%AE/small-spring/%E6%9E%81%E7%AE%80IOC/">
+                     
+										    极简IOC
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/12/25/%E9%A1%B9%E7%9B%AE/small-spring/%E9%80%92%E5%BD%92%E5%A1%AB%E5%85%85%E5%B1%9E%E6%80%A7/">
+                     
+										    递归填充属性
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+		</div>
+	</div>
+</div>
+
+	<!-- 引入正文 -->
+	<div id="content" class="content">
+		<h1 id="article-title">
+	JVM第一篇—内存区域
+</h1>
+
+<!-- meta -->
+<div class="article-meta">
+	
+
+	<span>Meteor</span>
+	<span>2023-10-11 15:24:15</span>
+
+  <div id="article-categories">
+    
+		  <span>Categories：</span>
+      
+          
+              <span>
+                  <i class="fa fa-folder" aria-hidden="true">
+                  <a href="/categories/Java/">Java</a>
+                  </i>
+                
+              </span>
+          
+      
+    
+
+    
+		    <span>Tags：</span>
+        
+            
+                <span>
+                    <i class="fa fa-tag" aria-hidden="true">
+                    <a href="/tags/JVM/">JVM</a>
+                    </i>
+                </span>
+            
+        
+    
+  </div>
+
+</div>
+
+<!-- content -->
+<div id="article-content">
+	<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>JVM（Java Virtual Machine）Java虚拟机，实现Java代码 write onece, run everywhere 的关键，主要用于优化、运行字节码文件，当然，对于Java虚拟机而言，运行的文件就是Java类</p>
+<p>对于Java而言，由于将垃圾回收交给了JVM处理，自己不用手动清理垃圾，因此如果发生了内存泄露的问题，不了解JVM将会很难排查出问题，所以JVM的一大核心就是对内存的管理，本篇将介绍JVM如何进行内存区域划分，了解在Java代码运行时如何存储数据的</p>
+<blockquote>
+<p>以下所有关于JVM的介绍都是基于 HotSpot 虚拟机</p>
+</blockquote>
+<p>以下是 JVM 运行时数据区域在jdk8以前和之后的发展变化，其实表面上看只是将方法区替换成了元空间，但实际上还有更细节的变化，接下来会慢慢讲述</p>
+<p><img src="https://cdn.jsdelivr.net/gh/meteor-01/blog-imges/jdk1.8%E4%B9%8B%E5%89%8D%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/meteor-01/blog-imges/jdk1.8%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F.png"></p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>所有线程共享区域，用于存储Java类的元信息，包括类型信息、常量、静态变量等等，也就是一些静态文件以及运行时生成的代理信息</p>
+<p>在jdk8之前，由于使用HotSpot虚拟机的较多，而HotSpot中用来实现方法区的区域叫永久代，因此在上图中，直接使用了永久代的称呼，而jdk8开始，由于HotSpot和JRockit合并，在JRockit中并没有永久代，而且HotSpot开发者本就打算废弃永久代，终于在jdk8时采用元空间实现方法区</p>
+<p>永久代和元空间两种实现方式的区别在于，前者是在堆中分配的，内存是固定且有上限的，无法动态扩展，后者使用本地内存，提高了内存的上限，且支持动态分配和释放内存，因此元空间可以完全取代永久代</p>
+<p>在方法区进行的垃圾收集行为很少，因为针对它的回收目标主要是常量池的回收和对类型的卸载，回收效率不高，尤其是对类型的卸载，需要满足下面三个条件才会考虑回收：</p>
+<ul>
+<li>该类的所有实例对象都被回收</li>
+<li>加载该类的类加载器被回收</li>
+<li>该类的java.lang.Class对象没有出现在任何地方，无法通过反射获取该类</li>
+</ul>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>所有线程共享区域，几乎所有对象实例都在这上面分配内存，也是垃圾回收的主要区域。由于大部分垃圾收集器是基于分代理论设计的，因此划分堆中区域时会有“新生代”、“老年代”、“永久代”的名词，但这些名词只是针对那些基于分代设计的收集器，目前已经有很优秀的收集器不基于分代理论，比如G1</p>
+<p>堆在内存上的存储可以连续也可以不连续，但在逻辑上应该是连续的。其大小可以固定也可以扩展，目前主要的虚拟机都是可扩展的，如果堆已经占满而且无法扩展时就会报错：OutOfMemoryError</p>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>由于一般线程数多于处理器数量，因此线程之间的切换较为频繁，每个线程切换前需要先保存自己的信息，在执行Java方法时程序计数器记录的是虚拟机字节码指令的地址，如果执行本地方法，计数器的值为空</p>
+<h2 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h2><p>线程私有区域，它存储的是包含局部变量表、操作数栈、动态连接、方法出口等信息的栈帧，而每个栈帧的入栈、出栈代表着一个方法从调用到执行完毕的过程，因此每个栈帧的开始都是 main 方法</p>
+<p><strong>局部变量表</strong></p>
+<p>在编译阶段就已经确定了局部变量表的大小，它使用变量槽的方式存储局部变量，除了long和double类型的变量占用两个变量槽，其它类型的变量均占用一个变量槽，而变量槽的大小没有明确的规定，不过对于非 static 方法，第0号变量槽存储的是实例变量本身，即 this </p>
+
+<p><strong>操作数栈</strong></p>
+<p>存储方法执行过程中产生的中间结果，因此一开始是空的，和局部变量表一样，除了long和double类型的变量占用两个单位的容量，其它占用一个单位</p>
+
+<p><strong>动态连接</strong></p>
+<p>每个栈帧都包含一个指向运行时常量池中该栈帧所属方法的引用，持有这个引用是为了支持方法调用过程中的动态连接。因为Java代码在进行Javac编译的时候并不会进行连接操作，而是在虚拟机加载Class文件的时候进行动态连接。也就是说，在Class文件中不会保存各个方法、字段的最终内存布局信息，因此这些字段、方法的符号引用不经过运行期转换的话无法得到真正的内存入口地址，也就无法直接被虚拟机使用。当虚拟机运行时，需要从常量池获得对应的符号引用，再在类创建时或运行时解析、翻译到具体的内存地址之中</p>
+
+<p><strong>方法出口</strong></p>
+<p>方法返回时，可能需要在栈帧中存储一些信息来帮助调用者恢复状态，比如说方法正常退出时会存储调用者的程序计数器的值，但如果出现异常，返回地址就需要异常处理器来确定。另外，如果有返回值，也需要压入调用者的操作数栈中，最后还要调整程序计数器的值指向下一条命令</p>
+
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>线程私有区域，作用和虚拟机栈类似，区别在于虚拟机栈是为虚拟机执行Java方法提供支持，本地方法栈则是为执行本地方法提供服务。</p>
+<p>Java中的本地方法随处可见，在Object类中就有很多标注了native的方法，比如clone()、getClass()、hashCode()等等，使用本地方法的原因在于Java的局限性，它需要依赖于底层操作系统的支持才能完成一些功能，或者为了加速一些代码的执行效率而采用C&#x2F;C++的实现方式</p>
+
+</div>
+
+<!-- post-guide -->
+
+    <div class="post-guide">
+        <div class="item left">
+            
+              <a href="/2023/10/13/%E7%AE%97%E6%B3%95/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  打家劫舍
+              </a>
+            
+        </div>
+        <div class="item right">
+            
+              <a href="/2023/10/09/%E9%A1%B9%E7%9B%AE/small-spring/%E5%88%A9%E7%94%A8%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F%E5%AF%B9IOC%E5%8A%9F%E8%83%BD%E5%88%86%E5%B1%82/">
+                利用模板模式对IOC功能分层
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            
+        </div>
+    </div>
+
+
+<!-- comment - giscus -->
+
+
+<!-- comment - valine -->
+
+
+<script>
+	
+	
+</script>
+	</div>
+	<div id="footer">
+	<p>
+	©<span id="footerYear-start"></span>-<span id="footerYear-end"></span>
+
+	
+	    <a href="/">Meteor</a>
+	
+	
+	
+	<br>
+	Theme <a href="//github.com/wujun234/hexo-theme-tree" target="_blank">Tree</a>
+	by <a href="//wujun.me" target="_blank">Wu Jun</a>
+	Powered by <a href="//hexo.io" target="_blank">Hexo</a>
+	</p>
+</div>
+
+
+<script type="text/javascript">
+	document.getElementById('footerYear-start').innerHTML = new Date().getFullYear() + '';
+</script>
+
+<script type="text/javascript">
+	document.getElementById('footerYear-end').innerHTML = new Date().getFullYear() + '';
+</script>
+
+	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+</body>
+</html>

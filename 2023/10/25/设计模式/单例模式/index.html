@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	
+	<!-- title -->
+	
+	<title>
+	
+		单例模式 | 
+	 
+	Meteor
+	</title>
+	
+	<!-- keywords,description -->
+	
+		<meta name="keywords" content="Blog" />
+	
+	
+
+	<!-- favicon -->
+	
+	<link rel="shortcut icon" href="/Blog.png">
+	
+
+
+	<!-- search -->
+	<script>
+		var searchEngine = "https://www.google.com/search?q=";
+		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
+			searchEngine = "https://www.google.com/search?q=";
+		}
+		var homeHost = "";
+		if(typeof homeHost == "undefined" || homeHost == null || homeHost == ""){
+			homeHost = window.location.host;
+		}
+	</script>
+
+
+	
+<link rel="stylesheet" href="/css/main.css">
+
+	
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/darcula.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js"></script>
+
+	
+<script src="/js/main.js"></script>
+
+
+	
+		
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+
+		
+<script src="https://cdn.jsdelivr.net/npm/valine@v1.5.1/dist/Valine.min.js"></script>
+
+	
+	
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+	<header id="header">
+    <a id="title" href="/" class="logo">Meteor</a>
+
+	<ul id="menu">
+    
+      <li class="menu-item">
+        <a href="/about" class="menu-item-link">About</a>
+      </li>
+    
+
+    
+      <li class="menu-item">
+        <a href="/tags" class="menu-item-link">Tags</a>
+      </li>
+    
+
+    
+      <li class="menu-item">
+        <a href="/categories" class="menu-item-link">Categories</a>
+      </li>
+    
+
+    
+  
+    
+      <li class="menu-item">
+        <a href='https://github.com/meteor-01' class="menu-item-link" target="_blank">
+          <i class="fa fa-github fa-2x"></i>
+        </a>
+      </li>
+    
+	</ul>
+</header>
+
+	
+<div id="sidebar">
+	<button id="sidebar-toggle" class="toggle" ><i class="fa fa-arrow-right " aria-hidden="true"></i></button>
+	
+	<div id="site-toc">
+		<input id="search-input" class="search-input" type="search" placeholder="Press Enter to search">
+		<div id="tree">
+			
+
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										Java
+									</a>
+									
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										JVM
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/11/Java/JVM/JVM%E7%AC%AC%E4%B8%80%E7%AF%87%E2%80%94%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+                     
+										    JVM第一篇—内存区域
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										其它
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/Grpc/">
+                     
+										    Grpc
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/MyBatis-generator/">
+                     
+										    MyBatis-generator
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/26/%E5%85%B6%E5%AE%83/Spring%E4%BA%8B%E5%8A%A1/">
+                     
+										    Spring事务
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/%E6%97%A5%E5%BF%97%E5%88%87%E9%9D%A2%E5%85%A5%E5%BA%93/">
+                     
+										    日志切面入库
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/01/09/%E5%85%B6%E5%AE%83/%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83/">
+                     
+										    登录鉴权
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/06/21/%E5%85%B6%E5%AE%83/%E8%AF%BB%E5%8F%96%E5%86%99%E5%85%A5Excel/">
+                     
+										    读取写入Excel
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										算法
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2022/11/28/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+                     
+										    二分查找
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/09/%E7%AE%97%E6%B3%95/%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4/">
+                     
+										    划分字母区间
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/05/31/%E7%AE%97%E6%B3%95/%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/">
+                     
+										    层序遍历
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/13/%E7%AE%97%E6%B3%95/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">
+                     
+										    打家劫舍
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/06/01/%E7%AE%97%E6%B3%95/%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/">
+                     
+										    翻转链表
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/08/%E7%AE%97%E6%B3%95/%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/">
+                     
+										    跳跃游戏
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										设计模式
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
+                     
+										    代理模式
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file active">
+									<a href="/2023/10/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+                     
+										    单例模式
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										项目
+									</a>
+									
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										small-spring
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/09/%E9%A1%B9%E7%9B%AE/small-spring/%E5%88%A9%E7%94%A8%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F%E5%AF%B9IOC%E5%8A%9F%E8%83%BD%E5%88%86%E5%B1%82/">
+                     
+										    利用模板模式对IOC功能分层
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/30/%E9%A1%B9%E7%9B%AE/small-spring/%E5%AE%9E%E7%8E%B0%E6%9C%89%E5%8F%82%E6%9E%84%E9%80%A0%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/">
+                     
+										    实现有参构造的实例化
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/09/21/%E9%A1%B9%E7%9B%AE/small-spring/%E6%9E%81%E7%AE%80IOC/">
+                     
+										    极简IOC
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/12/25/%E9%A1%B9%E7%9B%AE/small-spring/%E9%80%92%E5%BD%92%E5%A1%AB%E5%85%85%E5%B1%9E%E6%80%A7/">
+                     
+										    递归填充属性
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+		</div>
+	</div>
+</div>
+
+	<!-- 引入正文 -->
+	<div id="content" class="content">
+		<h1 id="article-title">
+	单例模式
+</h1>
+
+<!-- meta -->
+<div class="article-meta">
+	
+
+	<span>Meteor</span>
+	<span>2023-10-25 17:00:16</span>
+
+  <div id="article-categories">
+    
+		  <span>Categories：</span>
+      
+          
+              <span>
+                  <i class="fa fa-folder" aria-hidden="true">
+                  <a href="/categories/设计模式/">设计模式</a>
+                  </i>
+                
+              </span>
+          
+      
+    
+
+    
+		    <span>Tags：</span>
+        
+            
+                <span>
+                    <i class="fa fa-tag" aria-hidden="true">
+                    <a href="/tags/单例模式/">单例模式</a>
+                    </i>
+                </span>
+            
+        
+    
+  </div>
+
+</div>
+
+<!-- content -->
+<div id="article-content">
+	<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>单例模式：一个类在任何时候只有一个实例</p>
+
+<p>单例模式的好处很明显，只有一个实例，节约了空间，只需要创建一次，也节约了时间，缺点就是没有抽象类，无法扩展</p>
+
+<blockquote>
+<p>源码：<a target="_blank" rel="noopener" href="https://github.com/meteor-01/moderndesign/tree/master/singleton">singleton</a></p>
+</blockquote>
+<p>下面展示单例模式的六种实现方式，其中所有实现方式的构造方法都设置成private的，只能通过指定方法才能获取实例对象</p>
+
+<h2 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h2><p>饿汉式，将实例设置成静态变量，只要类加载就实例化，JVM在执行实例化指令时会自动保证线程安全，实现简单，但是浪费空间，同时可以利用反射破坏单例</p>
+
+<h4 id="SingletonHungry"><a href="#SingletonHungry" class="headerlink" title="SingletonHungry"></a>SingletonHungry</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SingletonHungry</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">SingletonHungry</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">SingletonHungry</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SingletonHungry</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SingletonHungry <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>测试饿汉式单例，尝试用反射破坏单例</p>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AppTest</span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testSingletonHungry</span><span class="params">()</span> <span class="keyword">throws</span> NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException &#123;</span><br><span class="line">        <span class="type">SingletonHungry</span> <span class="variable">instance</span> <span class="operator">=</span> SingletonHungry.getInstance();</span><br><span class="line"></span><br><span class="line">        Constructor&lt;SingletonHungry&gt; constructor = SingletonHungry.class.getDeclaredConstructor(<span class="literal">null</span>);</span><br><span class="line">        constructor.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">SingletonHungry</span> <span class="variable">singletonHungry</span> <span class="operator">=</span> constructor.newInstance();</span><br><span class="line"></span><br><span class="line">        System.out.println(instance);</span><br><span class="line">        System.out.println(singletonHungry);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">com.meteor.design.SingletonHungry@2b05039f</span><br><span class="line">com.meteor.design.SingletonHungry@61e717c2</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>很明显，正常获取的单例和反射获取的单例不一致</p>
+<h2 id="饿汉式不安全"><a href="#饿汉式不安全" class="headerlink" title="饿汉式不安全"></a>饿汉式不安全</h2><p>懒汉式不安全实现，当要使用的时候调用方法获取，如果为空就创建，将静态对象返回</p>
+<h4 id="SingletonLazyUnsafe"><a href="#SingletonLazyUnsafe" class="headerlink" title="SingletonLazyUnsafe"></a>SingletonLazyUnsafe</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SingletonLazyUnsafe</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">SingletonLazyUnsafe</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingletonLazyUnsafe instance;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SingletonLazyUnsafe <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">SingletonLazyUnsafe</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h4><p>测试懒汉式不安全实现，用多线程破坏单例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AppTest</span> &#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testSingletonLazyUnsafe</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)&#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Thread</span>(()-&gt;&#123;</span><br><span class="line">                System.out.println(SingletonLazyUnsafe.getInstance());</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">com.meteor.design.SingletonLazyUnsafe@2d7143c2</span><br><span class="line">com.meteor.design.SingletonLazyUnsafe@5fb48d1e</span><br><span class="line">com.meteor.design.SingletonLazyUnsafe@2d7143c2</span><br><span class="line">com.meteor.design.SingletonLazyUnsafe<span class="meta">@c087dd6</span></span><br><span class="line">com.meteor.design.SingletonLazyUnsafe@2d7143c2</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>不是每次都会出现问题，但肯定是要避免出问题的</p>
+<h2 id="懒汉式安全实现"><a href="#懒汉式安全实现" class="headerlink" title="懒汉式安全实现"></a>懒汉式安全实现</h2><p>使用 synchronized 关键字对方法加锁保证线程安全，但效率较低</p>
+<h4 id="SingletonLazySafe"><a href="#SingletonLazySafe" class="headerlink" title="SingletonLazySafe"></a>SingletonLazySafe</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SingletonLazySafe</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">SingletonLazySafe</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingletonLazySafe instance;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> SingletonLazySafe <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">SingletonLazySafe</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><p>使用静态内部类实现单例，静态内部类的特点是不依赖外部类的实例对象可以独立创建，调用getInstance()方法时才执行创建操作，实现了懒加载，而且JVM保证了执行实例化指令的线程安全</p>
+<h4 id="SingletonInnerClass"><a href="#SingletonInnerClass" class="headerlink" title="SingletonInnerClass"></a>SingletonInnerClass</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SingletonInnerClass</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">SingletonInnerClass</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> InnerClass <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> InnerClass.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">InnerClass</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">InnerClass</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InnerClass</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="双重校验锁"><a href="#双重校验锁" class="headerlink" title="双重校验锁"></a>双重校验锁</h2><p>双重校验锁，先判断是否为空，再进行加锁，再次判断是否为空，如果为空则实例化</p>
+<p>第二次判断是防止第一次判断为空但是加锁之后已经实例化好了，同时要配合volatile使用，volatile的作用是防止指令重排序和变量的值与主存的值时刻保持一致，也就是为了加速代码执行效率可能会进行指令重排序，在单线程环境下不会影响结果，但是多线程环境下可能会拿到一个不为null，但还未初始化的对象，禁止重排序后，就只能先初始化，后赋值给对象，同时对对象的修改对其它线程可见</p>
+<h4 id="SingletonDoubleCheckedLocking"><a href="#SingletonDoubleCheckedLocking" class="headerlink" title="SingletonDoubleCheckedLocking"></a>SingletonDoubleCheckedLocking</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SingletonDoubleCheckedLocking</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">SingletonDoubleCheckedLocking</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> SingletonDoubleCheckedLocking instance;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SingletonDoubleCheckedLocking <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (SingletonDoubleCheckedLocking.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> <span class="title class_">SingletonDoubleCheckedLocking</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h2><p>利用枚举实现单例，线程安全且无法通过反射破坏单例，因为反射调用的方法检测到是枚举类时会报错</p>
+<h4 id="SingletonEnum"><a href="#SingletonEnum" class="headerlink" title="SingletonEnum"></a>SingletonEnum</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.design;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">SingletonEnum</span> &#123;</span><br><span class="line">    INSTANCE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">src</span><br><span class="line">├── main</span><br><span class="line">│   └── java</span><br><span class="line">│       └── com.meteor.design</span><br><span class="line">│           ├── dynamic_proxy</span><br><span class="line">│           │   ├── cglib</span><br><span class="line">│           │   │   ├── CGLIBProxyFactory.java</span><br><span class="line">│           │   │   └── MyMethodInterceptor.java</span><br><span class="line">│           │   │      </span><br><span class="line">│           │   └── jdk</span><br><span class="line">│           │       ├── JDKProxyFactory.java</span><br><span class="line">│           │       └── MyInvocationHandler.java</span><br><span class="line">│           │          </span><br><span class="line">│           ├── service</span><br><span class="line">│           │   ├── IUserService.java</span><br><span class="line">│           │   └── UserService.java</span><br><span class="line">│           │      </span><br><span class="line">│           └── static_proxy</span><br><span class="line">│               └── StaticProxy.java</span><br><span class="line">│              </span><br><span class="line">└── test</span><br><span class="line">    └── java</span><br><span class="line">        └── com.meteor.design</span><br><span class="line">            └── AppTest.java</span><br></pre></td></tr></table></figure>
+</div>
+
+<!-- post-guide -->
+
+    <div class="post-guide">
+        <div class="item left">
+            
+              <a href="/2023/10/30/%E9%A1%B9%E7%9B%AE/small-spring/%E5%AE%9E%E7%8E%B0%E6%9C%89%E5%8F%82%E6%9E%84%E9%80%A0%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  实现有参构造的实例化
+              </a>
+            
+        </div>
+        <div class="item right">
+            
+              <a href="/2023/10/13/%E7%AE%97%E6%B3%95/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">
+                打家劫舍
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            
+        </div>
+    </div>
+
+
+<!-- comment - giscus -->
+
+
+<!-- comment - valine -->
+
+
+<script>
+	
+	
+</script>
+	</div>
+	<div id="footer">
+	<p>
+	©<span id="footerYear-start"></span>-<span id="footerYear-end"></span>
+
+	
+	    <a href="/">Meteor</a>
+	
+	
+	
+	<br>
+	Theme <a href="//github.com/wujun234/hexo-theme-tree" target="_blank">Tree</a>
+	by <a href="//wujun.me" target="_blank">Wu Jun</a>
+	Powered by <a href="//hexo.io" target="_blank">Hexo</a>
+	</p>
+</div>
+
+
+<script type="text/javascript">
+	document.getElementById('footerYear-start').innerHTML = new Date().getFullYear() + '';
+</script>
+
+<script type="text/javascript">
+	document.getElementById('footerYear-end').innerHTML = new Date().getFullYear() + '';
+</script>
+
+	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+</body>
+</html>

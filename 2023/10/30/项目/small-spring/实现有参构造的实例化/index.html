@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	
+	<!-- title -->
+	
+	<title>
+	
+		实现有参构造的实例化 | 
+	 
+	Meteor
+	</title>
+	
+	<!-- keywords,description -->
+	
+		<meta name="keywords" content="Blog" />
+	
+	
+
+	<!-- favicon -->
+	
+	<link rel="shortcut icon" href="/Blog.png">
+	
+
+
+	<!-- search -->
+	<script>
+		var searchEngine = "https://www.google.com/search?q=";
+		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
+			searchEngine = "https://www.google.com/search?q=";
+		}
+		var homeHost = "";
+		if(typeof homeHost == "undefined" || homeHost == null || homeHost == ""){
+			homeHost = window.location.host;
+		}
+	</script>
+
+
+	
+<link rel="stylesheet" href="/css/main.css">
+
+	
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/darcula.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js"></script>
+
+	
+<script src="/js/main.js"></script>
+
+
+	
+		
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+
+		
+<script src="https://cdn.jsdelivr.net/npm/valine@v1.5.1/dist/Valine.min.js"></script>
+
+	
+	
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+	<header id="header">
+    <a id="title" href="/" class="logo">Meteor</a>
+
+	<ul id="menu">
+    
+      <li class="menu-item">
+        <a href="/about" class="menu-item-link">About</a>
+      </li>
+    
+
+    
+      <li class="menu-item">
+        <a href="/tags" class="menu-item-link">Tags</a>
+      </li>
+    
+
+    
+      <li class="menu-item">
+        <a href="/categories" class="menu-item-link">Categories</a>
+      </li>
+    
+
+    
+  
+    
+      <li class="menu-item">
+        <a href='https://github.com/meteor-01' class="menu-item-link" target="_blank">
+          <i class="fa fa-github fa-2x"></i>
+        </a>
+      </li>
+    
+	</ul>
+</header>
+
+	
+<div id="sidebar">
+	<button id="sidebar-toggle" class="toggle" ><i class="fa fa-arrow-right " aria-hidden="true"></i></button>
+	
+	<div id="site-toc">
+		<input id="search-input" class="search-input" type="search" placeholder="Press Enter to search">
+		<div id="tree">
+			
+
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										Java
+									</a>
+									
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										JVM
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/11/Java/JVM/JVM%E7%AC%AC%E4%B8%80%E7%AF%87%E2%80%94%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
+                     
+										    JVM第一篇—内存区域
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										其它
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/Grpc/">
+                     
+										    Grpc
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/MyBatis-generator/">
+                     
+										    MyBatis-generator
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/26/%E5%85%B6%E5%AE%83/Spring%E4%BA%8B%E5%8A%A1/">
+                     
+										    Spring事务
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/02/25/%E5%85%B6%E5%AE%83/%E6%97%A5%E5%BF%97%E5%88%87%E9%9D%A2%E5%85%A5%E5%BA%93/">
+                     
+										    日志切面入库
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2024/01/09/%E5%85%B6%E5%AE%83/%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83/">
+                     
+										    登录鉴权
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/06/21/%E5%85%B6%E5%AE%83/%E8%AF%BB%E5%8F%96%E5%86%99%E5%85%A5Excel/">
+                     
+										    读取写入Excel
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										算法
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2022/11/28/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+                     
+										    二分查找
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/09/%E7%AE%97%E6%B3%95/%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4/">
+                     
+										    划分字母区间
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/05/31/%E7%AE%97%E6%B3%95/%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/">
+                     
+										    层序遍历
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/13/%E7%AE%97%E6%B3%95/%E6%89%93%E5%AE%B6%E5%8A%AB%E8%88%8D/">
+                     
+										    打家劫舍
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/06/01/%E7%AE%97%E6%B3%95/%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/">
+                     
+										    翻转链表
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/08/%E7%AE%97%E6%B3%95/%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/">
+                     
+										    跳跃游戏
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										设计模式
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
+                     
+										    代理模式
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/10/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+                     
+										    单例模式
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										项目
+									</a>
+									
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										small-spring
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2023/10/09/%E9%A1%B9%E7%9B%AE/small-spring/%E5%88%A9%E7%94%A8%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F%E5%AF%B9IOC%E5%8A%9F%E8%83%BD%E5%88%86%E5%B1%82/">
+                     
+										    利用模板模式对IOC功能分层
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file active">
+									<a href="/2023/10/30/%E9%A1%B9%E7%9B%AE/small-spring/%E5%AE%9E%E7%8E%B0%E6%9C%89%E5%8F%82%E6%9E%84%E9%80%A0%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96/">
+                     
+										    实现有参构造的实例化
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/09/21/%E9%A1%B9%E7%9B%AE/small-spring/%E6%9E%81%E7%AE%80IOC/">
+                     
+										    极简IOC
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2023/12/25/%E9%A1%B9%E7%9B%AE/small-spring/%E9%80%92%E5%BD%92%E5%A1%AB%E5%85%85%E5%B1%9E%E6%80%A7/">
+                     
+										    递归填充属性
+                     
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+		</div>
+	</div>
+</div>
+
+	<!-- 引入正文 -->
+	<div id="content" class="content">
+		<h1 id="article-title">
+	实现有参构造的实例化
+</h1>
+
+<!-- meta -->
+<div class="article-meta">
+	
+
+	<span>Meteor</span>
+	<span>2023-10-30 17:04:19</span>
+
+  <div id="article-categories">
+    
+		  <span>Categories：</span>
+      
+          
+              <span>
+                  <i class="fa fa-folder" aria-hidden="true">
+                  <a href="/categories/spring/">spring</a>
+                  </i>
+                
+              </span>
+          
+      
+    
+
+    
+		    <span>Tags：</span>
+        
+            
+                <span>
+                    <i class="fa fa-tag" aria-hidden="true">
+                    <a href="/tags/spring/">spring</a>
+                    </i>
+                </span>
+            
+        
+    
+  </div>
+
+</div>
+
+<!-- content -->
+<div id="article-content">
+	<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在上一篇根据 Bean 的Class对象通过反射创建实例，实际上是通过调用无参构造实例化的，如果只有有参构造就会有问题，本篇先讲解两种方式实现有参构造的实例化，然后是如何将两种实例化方式融入 Bean 的生命周期中</p>
+<blockquote>
+<p>源码：<a target="_blank" rel="noopener" href="https://github.com/meteor-01/small-spring/tree/master/small-spring03">small-spring03</a><br>阅读前建议先了解一下代理模式，链接：<a target="_blank" rel="noopener" href="https://github.com/meteor-01/moderndesign/tree/master/proxy">proxy</a></p>
+</blockquote>
+<h2 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h2><p>由于不止一种实例化方法，所以可以创建一个接口用来规范方法的实现，下面是接口的代码</p>
+<h4 id="InstantiationStrategy"><a href="#InstantiationStrategy" class="headerlink" title="InstantiationStrategy"></a>InstantiationStrategy</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.factory.support;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.meteor.BeansException;</span><br><span class="line"><span class="keyword">import</span> com.meteor.factory.config.BeanDefinition;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">InstantiationStrategy</span> &#123;</span><br><span class="line">    Object <span class="title function_">instantiate</span><span class="params">(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args)</span> <span class="keyword">throws</span> BeansException;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h3><p>JDK依然是通过反射创建实例，不过现在要判断是否有入参，根据参数的有无调用不同的方法，代码如下：</p>
+<h4 id="SimpleInstantiationStrategy"><a href="#SimpleInstantiationStrategy" class="headerlink" title="SimpleInstantiationStrategy"></a>SimpleInstantiationStrategy</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.factory.support;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.meteor.BeansException;</span><br><span class="line"><span class="keyword">import</span> com.meteor.factory.config.BeanDefinition;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleInstantiationStrategy</span> <span class="keyword">implements</span> <span class="title class_">InstantiationStrategy</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">instantiate</span><span class="params">(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args)</span> <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">        <span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> beanDefinition.getBeanClass();</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="literal">null</span>!=ctor)&#123;</span><br><span class="line">                <span class="keyword">return</span> clazz.getDeclaredConstructor(ctor.getParameterTypes()).newInstance(args);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> clazz.getDeclaredConstructor().newInstance();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BeansException</span>(<span class="string">&quot;Failed to instantiate [&quot;</span>+clazz.getName()+<span class="string">&quot;]&quot;</span>,e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Cglib"><a href="#Cglib" class="headerlink" title="Cglib"></a>Cglib</h3><p>Cglib是通过生成子类的方式实例化的，即创建从外界传入 Bean 的Class对象的子类，代码如下：</p>
+<h4 id="CglibSubclassingInstantiationStrategy"><a href="#CglibSubclassingInstantiationStrategy" class="headerlink" title="CglibSubclassingInstantiationStrategy"></a>CglibSubclassingInstantiationStrategy</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.factory.support;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.meteor.BeansException;</span><br><span class="line"><span class="keyword">import</span> com.meteor.factory.config.BeanDefinition;</span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.Enhancer;</span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.NoOp;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CglibSubclassingInstantiationStrategy</span> <span class="keyword">implements</span> <span class="title class_">InstantiationStrategy</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">instantiate</span><span class="params">(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args)</span> <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">        <span class="comment">// 创建 Enhancer 类</span></span><br><span class="line">        <span class="type">Enhancer</span> <span class="variable">enhancer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Enhancer</span>();</span><br><span class="line">        <span class="comment">// 设置父类</span></span><br><span class="line">        enhancer.setSuperclass(beanDefinition.getBeanClass());</span><br><span class="line">        <span class="comment">// 对父类中的方法进行拦截操作，NoOp表示无操作，相当于 InvocationHandler</span></span><br><span class="line">        enhancer.setCallback(<span class="keyword">new</span> <span class="title class_">NoOp</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">hashCode</span><span class="params">()</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="built_in">super</span>.hashCode();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">// 根据有无参数调用不同的方法</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">null</span> == ctor) <span class="keyword">return</span> enhancer.create();</span><br><span class="line">        <span class="keyword">return</span> enhancer.create(ctor.getParameterTypes(), args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="融合Bean实例化"><a href="#融合Bean实例化" class="headerlink" title="融合Bean实例化"></a>融合Bean实例化</h2><p>接下来就是将实例化融入到 Bean 的生命周期中，在目前存在的类中，AbstractAutowireCapableBeanFactory 类负责创建 Bean，也包括 Bean 的实例化，因此要将实例化融入到这个类中。</p>
+<p>由于之前已经创建了一个接口 InstantiationStrategy 来管理所有的实例化策略，所以可以在 AbstractAutowireCapableBeanFactory 内添加一个 InstantiationStrategy 类型的字段，利用多态自由的切换不同的实例化策略</p>
+<h4 id="AbstractAutowireCapableBeanFactory"><a href="#AbstractAutowireCapableBeanFactory" class="headerlink" title="AbstractAutowireCapableBeanFactory"></a>AbstractAutowireCapableBeanFactory</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.factory.support;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.meteor.BeansException;</span><br><span class="line"><span class="keyword">import</span> com.meteor.factory.config.BeanDefinition;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractAutowireCapableBeanFactory</span> <span class="keyword">extends</span> <span class="title class_">AbstractBeanFactory</span> &#123;</span><br><span class="line">    <span class="comment">// 实例化策略</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">InstantiationStrategy</span> <span class="variable">instantiationStrategy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CglibSubclassingInstantiationStrategy</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> InstantiationStrategy <span class="title function_">getInstantiationStrategy</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> instantiationStrategy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setInstantiationStrategy</span><span class="params">(InstantiationStrategy instantiationStrategy)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.instantiationStrategy = instantiationStrategy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建 Bean</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Object <span class="title function_">createBean</span><span class="params">(String beanName, BeanDefinition beanDefinition, Object[] args)</span> <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">bean</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            bean = createBeanInstance(beanDefinition, beanName, args);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BeansException</span>(<span class="string">&quot;Instantiation of bean failed&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">        addSingleton(beanName, bean);</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Bean 的实例化</span></span><br><span class="line">    <span class="keyword">protected</span> Object <span class="title function_">createBeanInstance</span><span class="params">(BeanDefinition beanDefinition, String beanName, Object[] args)</span> <span class="keyword">throws</span> BeansException &#123;</span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">constructorToUse</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        Class&lt;?&gt; beanClass = beanDefinition.getBeanClass();</span><br><span class="line">        Constructor&lt;?&gt;[] declaredConstructors = beanClass.getDeclaredConstructors();</span><br><span class="line">        <span class="keyword">for</span> (Constructor ctor : declaredConstructors) &#123;</span><br><span class="line">            <span class="comment">// 这一步简化了操作，只判断参数的个数是否相等，实际是要判断个数和类型的</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="literal">null</span> != args &amp;&amp; ctor.getParameterTypes().length == args.length) &#123;</span><br><span class="line">                constructorToUse = ctor;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> getInstantiationStrategy().instantiate(beanDefinition, beanName, constructorToUse, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>要测试有参构造能顺利获取到Bean，还是先创建一个UserService，而且只提供了有参构造</p>
+<h4 id="UserService"><a href="#UserService" class="headerlink" title="UserService"></a>UserService</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor.bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UserService</span><span class="params">(String name)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">queryUserInfo</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;查询用户信息：&quot;</span>+name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="开始测试"><a href="#开始测试" class="headerlink" title="开始测试"></a>开始测试</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.meteor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.meteor.bean.UserService;</span><br><span class="line"><span class="keyword">import</span> com.meteor.factory.config.BeanDefinition;</span><br><span class="line"><span class="keyword">import</span> com.meteor.factory.support.DefaultListableBeanFactory;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AppTest</span> &#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testBeanFactory</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//1. 初始化BeanFactory</span></span><br><span class="line">        <span class="type">DefaultListableBeanFactory</span> <span class="variable">beanFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultListableBeanFactory</span>();</span><br><span class="line">        <span class="comment">//2. 注入Bean</span></span><br><span class="line">        <span class="type">BeanDefinition</span> <span class="variable">beanDefinition</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanDefinition</span>(UserService.class);</span><br><span class="line">        beanFactory.registerBeanDefinition(<span class="string">&quot;userService&quot;</span>, beanDefinition);</span><br><span class="line">        <span class="comment">//3. 获取Bean</span></span><br><span class="line">        <span class="type">UserService</span> <span class="variable">userService</span> <span class="operator">=</span> (UserService) beanFactory.getBean(<span class="string">&quot;userService&quot;</span>, <span class="string">&quot;meteor&quot;</span>);</span><br><span class="line">        userService.queryUserInfo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">查询用户信息：meteor</span><br><span class="line"></span><br><span class="line">Process finished with exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>没有问题，可以顺利获得Bean</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文增加了对有参构造对象的实例化处理，当然，处理的过程做了简化。不过实际使用时，在配置文件中，有时还会配置 Bean 的属性信息，因此下文将会添加属性填充功能</p>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p>相较于上一篇更新的类标注update，新增的类标注为new</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">src</span><br><span class="line">├── main</span><br><span class="line">│   └── java</span><br><span class="line">│       └── com.meteor</span><br><span class="line">│           ├── factory</span><br><span class="line">│           │   ├── config</span><br><span class="line">│           │   │   ├── BeanDefinition.java</span><br><span class="line">│           │   │   └── SingletonBeanRegistry.java</span><br><span class="line">│           │   ├── support</span><br><span class="line">│           │   │   ├── AbstractAutowireCapableBeanFactory.java (update)</span><br><span class="line">│           │   │   ├── AbstractBeanFactory.java (update)</span><br><span class="line">│           │   │   ├── BeanDefinitionRegistry.java </span><br><span class="line">│           │   │   ├── CglibSubclassingInstantiationStrategy.java </span><br><span class="line">│           │   │   ├── DefaultListableBeanFactory.java (update)</span><br><span class="line">│           │   │   └── DefaultSingletonBeanRegistry.java </span><br><span class="line">│           │   │   └── InstantiationStrategy.java </span><br><span class="line">│           │   │   └── SimpleInstantiationStrategy.java </span><br><span class="line">│           │   └── BeanFactory.java (update)</span><br><span class="line">│           └── BeansException.java</span><br><span class="line">└── test</span><br><span class="line">    └── java</span><br><span class="line">        └── com.meteor</span><br><span class="line">            ├── bean</span><br><span class="line">            │   └── UserService.java(update)</span><br><span class="line">            └── MainTest.java</span><br></pre></td></tr></table></figure>
+
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<!-- post-guide -->
+
+    <div class="post-guide">
+        <div class="item left">
+            
+              <a href="/2023/10/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  代理模式
+              </a>
+            
+        </div>
+        <div class="item right">
+            
+              <a href="/2023/10/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+                单例模式
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            
+        </div>
+    </div>
+
+
+<!-- comment - giscus -->
+
+
+<!-- comment - valine -->
+
+
+<script>
+	
+	
+</script>
+	</div>
+	<div id="footer">
+	<p>
+	©<span id="footerYear-start"></span>-<span id="footerYear-end"></span>
+
+	
+	    <a href="/">Meteor</a>
+	
+	
+	
+	<br>
+	Theme <a href="//github.com/wujun234/hexo-theme-tree" target="_blank">Tree</a>
+	by <a href="//wujun.me" target="_blank">Wu Jun</a>
+	Powered by <a href="//hexo.io" target="_blank">Hexo</a>
+	</p>
+</div>
+
+
+<script type="text/javascript">
+	document.getElementById('footerYear-start').innerHTML = new Date().getFullYear() + '';
+</script>
+
+<script type="text/javascript">
+	document.getElementById('footerYear-end').innerHTML = new Date().getFullYear() + '';
+</script>
+
+	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+</body>
+</html>
